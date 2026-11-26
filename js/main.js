@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initMobileNavigation();
   initScrollSpy();
-  initSkillsFilter();
   initContactForm();
   initPrintAction();
 });
@@ -146,37 +145,7 @@ function initScrollSpy() {
 }
 
 /**
- * 4. Skills Interactive Filter Tabs
- */
-function initSkillsFilter() {
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const skillBoxes = document.querySelectorAll('.skill-category-box');
-
-  if (!filterButtons.length || !skillBoxes.length) return;
-
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filterCategory = btn.getAttribute('data-filter');
-
-      skillBoxes.forEach(box => {
-        const boxCategory = box.getAttribute('data-category');
-        if (filterCategory === 'all' || boxCategory === filterCategory) {
-          box.style.display = 'block';
-          box.style.opacity = '1';
-        } else {
-          box.style.display = 'none';
-          box.style.opacity = '0';
-        }
-      });
-    });
-  });
-}
-
-/**
- * 5. Contact Form Interaction & Copy Features
+ * 4. Contact Form Interaction & Copy Features
  */
 function initContactForm() {
   const contactForm = document.getElementById('contact-form');
@@ -191,12 +160,12 @@ function initContactForm() {
       const message = document.getElementById('sender-message')?.value || '';
 
       const bodyText = `Hi Urmit,%0D%0A%0D%0AMy name: ${encodeURIComponent(name)}%0D%0AEmail: ${encodeURIComponent(email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
-      const mailtoUrl = `mailto:urmit.patel@tcs.com?subject=${encodeURIComponent(subject)}&body=${bodyText}`;
+      const mailtoUrl = `mailto:urmitdpatel@gmail.com?subject=${encodeURIComponent(subject)}&body=${bodyText}`;
 
       // Open mail client
       window.location.href = mailtoUrl;
 
-      showToast('Opening your email client... (or contact urmit.patel@tcs.com)');
+      showToast('Opening your email client... (or contact urmitdpatel@gmail.com)');
     });
   }
 
@@ -204,21 +173,31 @@ function initContactForm() {
   copyEmailBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const email = 'urmit.patel@tcs.com';
+      const email = 'urmitdpatel@gmail.com';
       navigator.clipboard.writeText(email).then(() => {
-        showToast('Email address copied: urmit.patel@tcs.com');
+        showToast('Email address copied: urmitdpatel@gmail.com');
       }).catch(() => {
-        showToast('Direct email: urmit.patel@tcs.com');
+        showToast('Direct email: urmitdpatel@gmail.com');
       });
     });
   });
 }
 
 /**
- * 6. Print Resume Action
+ * 5. Print Resume Action
  */
 function initPrintAction() {
+  const originalTitle = document.title;
   const printBtns = document.querySelectorAll('.print-resume-btn');
+
+  window.addEventListener('beforeprint', () => {
+    document.title = 'Urmit Patel - Resume';
+  });
+
+  window.addEventListener('afterprint', () => {
+    document.title = originalTitle;
+  });
+
   printBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
